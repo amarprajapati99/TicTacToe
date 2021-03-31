@@ -131,34 +131,34 @@ public class TicTacToeGame {
 	}
 
 
-	private static void placeMove(char[][] board, String position, char symbol) {
+	private static void placeMove(char[][] board, String position, char index) {
 		switch(position) {
 			case "1":
-				board[0][0] = symbol;
+				board[0][0] = index;
 				break;
 			case "2":
-				board[0][1] = symbol;
+				board[0][1] = index;
 				break;
 			case "3":
-				board[0][2] = symbol;
+				board[0][2] = index;
 				break;
 			case "4":
-				board[1][0] = symbol;
+				board[1][0] = index;
 				break;
 			case "5":
-				board[1][1] = symbol;
+				board[1][1] = index;
 				break;
 			case "6":
-				board[1][2] = symbol;
+				board[1][2] = index;
 				break;
 			case "7":
-				board[2][0] = symbol;
+				board[2][0] = index;
 				break;
 			case "8":
-				board[2][1] = symbol;
+				board[2][1] = index;
 				break;
 			case "9":
-				board[2][2] = symbol;
+				board[2][2] = index;
 				break;
 			default:
 				System.out.println(":(");
