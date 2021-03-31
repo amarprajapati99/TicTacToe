@@ -3,90 +3,99 @@ package com.tictactoe.bridgelabz;
 import java.util.Random;
 import java.util.Scanner;
 
+/*
+ * @Discription - a game in which two players alternately put X and O in game board  of a figure.
+ *  formed by two vertical lines crossing two horizontal lines and each tries to get a row of three X or three O.
+ *  
+ */
 public class TicTacToeGame {
 
 	public static void main(String[] args) {
 		
 		Scanner scanner = new Scanner(System.in);
 		
-		char[][] board = {{' ', ' ', ' '},
+		char[][] gameBoard = {{' ', ' ', ' '},
 				 	      {' ', ' ', ' '}, 
 				 	      {' ', ' ', ' '}};
 		
-		printBoard(board);
+		printBoard(gameBoard);
 		
 		while (true) {
-			playerTurn(board, scanner);
-			if (isGameFinished(board)){
+			playerTurn(gameBoard, scanner);
+			if (isGameFinished(gameBoard)){
 				break;
 			}
-			printBoard(board);
+			printBoard(gameBoard);
 			
-			computerTurn(board);
-			if (isGameFinished(board)){
+			computerTurn(gameBoard);
+			if (isGameFinished(gameBoard)){
 				break;
 			}
-			printBoard(board);
+			printBoard(gameBoard);
 		}
 		scanner.close();
 	}
 
 
-	private static boolean isGameFinished(char[][] board) {
+	private static boolean isGameFinished(char[][] gameBoard) {
 		
-		if (hasContestantWon(board, 'X')) {	
-			printBoard(board);
+		if (win(gameBoard, 'X')) {	
+			printBoard(gameBoard);
 			System.out.println("Player wins!");
 			return true;
 		}
 		
-		if (hasContestantWon(board, 'O')) {	
-			printBoard(board);
+		if (win(gameBoard, 'O')) {	
+			printBoard(gameBoard);
 			System.out.println("Computer wins!");
 			return true;
 		}
 		
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[i].length; j++) {
-				if (board[i][j] == ' ') {
+		for (int i = 0; i < gameBoard.length; i++) {
+			for (int j = 0; j < gameBoard[i].length; j++) {
+				if (gameBoard[i][j] == ' ') {
 					return false;
 				}
 			}
 		}
-		printBoard(board);
+		printBoard(gameBoard);
 		System.out.println("The game ended in a tie!");
 		return true;
 	}
 
-
-	private static boolean hasContestantWon(char[][] board, char symbol) {
-		if ((board[0][0] == symbol && board [0][1] == symbol && board [0][2] == symbol) ||
-			(board[1][0] == symbol && board [1][1] == symbol && board [1][2] == symbol) ||
-			(board[2][0] == symbol && board [2][1] == symbol && board [2][2] == symbol) ||
+/* 
+ * if the we get three Xs the player win othewise condition is false then compter win.
+ */
+	private static boolean win (char[][] gameBoard, char index) {
+		if ((gameBoard[0][0] == index && gameBoard [0][1] == index && gameBoard [0][2] == index) ||
+			(gameBoard[1][0] == index && gameBoard [1][1] == index && gameBoard [1][2] == index) ||
+			(gameBoard[2][0] == index && gameBoard [2][1] == index && gameBoard [2][2] == index) ||
 			
-			(board[0][0] == symbol && board [1][0] == symbol && board [2][0] == symbol) ||
-			(board[0][1] == symbol && board [1][1] == symbol && board [2][1] == symbol) ||
-			(board[0][2] == symbol && board [1][2] == symbol && board [2][2] == symbol) ||
+			(gameBoard[0][0] == index && gameBoard [1][0] == index && gameBoard [2][0] == index) ||
+			(gameBoard[0][1] == index && gameBoard [1][1] == index && gameBoard [2][1] == index) ||
+			(gameBoard[0][2] == index && gameBoard [1][2] == index && gameBoard [2][2] == index) ||
 			
-			(board[0][0] == symbol && board [1][1] == symbol && board [2][2] == symbol) ||
-			(board[0][2] == symbol && board [1][1] == symbol && board [2][0] == symbol) ) {
+			(gameBoard[0][0] == index && gameBoard [1][1] == index && gameBoard [2][2] == index) ||
+			(gameBoard[0][2] == index && gameBoard [1][1] == index && gameBoard [2][0] == index) ) {
 			return true;
 		}
 		return false;
 	}
 
-
-	private static void computerTurn(char[][] board) {
+/*
+ * 
+ */
+	private static void computerTurn(char[][] gameBoard) {
 		Random rand = new Random();
 		int computerMove;
 		while (true) {
 			computerMove = rand.nextInt(9) + 1;
-			if (isValidMove(board, Integer.toString(computerMove))) {
+			if (isValidMove(gameBoard, Integer.toString(computerMove))) {
 				break;
 			}
 		}
 		System.out.println("Computer chose " + computerMove);
-		placeMove(board, Integer.toString(computerMove), 'O');
+		placeMove(gameBoard, Integer.toString(computerMove), 'O');
 	}
 
 
@@ -115,50 +124,57 @@ public class TicTacToeGame {
 		}
 	}
 
-	
-	private static void playerTurn(char[][] board, Scanner scanner) {
-		String userInput;
+/*
+ * @Description- to check player move is valid or not.
+ */
+	private static void playerTurn(char[][] gameBoard, Scanner scanner) {
+		String playerTurn;
 		while (true) {
 			System.out.println("Where would you like to play? (1-9)");
-			userInput = scanner.nextLine();
-			if (isValidMove(board, userInput)){
+			playerTurn = scanner.nextLine();
+			if (isValidMove(gameBoard, playerTurn)){
 				break;
 			} else {
-				System.out.println(userInput + " is not a valid move.");
+				System.out.println(playerTurn + " is not a valid move.");
 			}
 		}
-		placeMove(board, userInput, 'X');
+		placeMove(gameBoard, playerTurn, 'X');
 	}
 
-
-	private static void placeMove(char[][] board, String position, char index) {
+/*
+ * @Description- put X and O in game board  of a figure formed by two vertical lines
+ *  crossing two horizontal lines and each tries to get a row of three X or three O
+ *  to check placeamove.
+ *  
+ */
+	private static void placeMove(char[][] gameBoard, String position, char index) {
 		switch(position) {
 			case "1":
-				board[0][0] = index;
+				gameBoard[0][0] = index;
 				break;
 			case "2":
-				board[0][1] = index;
+				gameBoard[0][1] = index;
 				break;
 			case "3":
-				board[0][2] = index;
+				gameBoard[0][2] = index;
 				break;
 			case "4":
-				board[1][0] = index;
+				gameBoard[1][0] = index;
 				break;
 			case "5":
-				board[1][1] = index;
+				gameBoard[1][1] = index;
 				break;
 			case "6":
-				board[1][2] = index;
+				gameBoard[1][2] = index;
 				break;
 			case "7":
-				board[2][0] = index;
+				gameBoard[2][0] = index;
 				break;
 			case "8":
-				board[2][1] = index;
+				gameBoard[2][1] = index;
 				break;
 			case "9":
-				board[2][2] = index;
+				gameBoard[2][2] = index;
 				break;
 			default:
 				System.out.println(":(");
@@ -166,14 +182,16 @@ public class TicTacToeGame {
 	}
 
 	
+	/*
+	 *  printing game board with empty space
+	 */
 	
-	
-	private static void printBoard(char[][] board) {
-		System.out.println(board[0][0] + "|" +  board[0][1] + "|" +  board[0][2] );
+	private static void printBoard(char[][] gameBoard) {
+		System.out.println(gameBoard[0][0] + "|" +  gameBoard[0][1] + "|" +  gameBoard[0][2] );
 		System.out.println("-+-+-");
-		System.out.println(board[1][0] + "|" +  board[1][1] + "|" +  board[1][2] );
+		System.out.println(gameBoard[1][0] + "|" +  gameBoard[1][1] + "|" +  gameBoard[1][2] );
 		System.out.println("-+-+-");
-		System.out.println(board[2][0] + "|" +  board[2][1] + "|" +  board[2][2] );
+		System.out.println(gameBoard[2][0] + "|" +  gameBoard[2][1] + "|" +  gameBoard[2][2] );
 	}
 	
 }
